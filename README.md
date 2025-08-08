@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💪 Workout Tracker
+
+A beautiful, minimalistic workout tracking app built with Next.js, TypeScript, Tailwind CSS, and Supabase. Track your fitness journey with friends and compete on the leaderboard!
+
+## Features
+
+- ✨ **Minimalistic Design** - Clean, modern UI with beautiful gradients
+- 👥 **User Management** - Add users with name and age
+- 🏋️ **Simple Tracking** - Just click "Yes" or "No" to record workouts
+- 🏆 **Leaderboard** - See who's working out the most
+- 📱 **Responsive** - Works perfectly on desktop and mobile
+- ⚡ **Fast** - Built with Next.js for optimal performance
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL)
+- **Deployment**: Vercel
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+
+### 1. Clone and Install
+
+```bash
+git clone <your-repo-url>
+cd shinde-workout
+npm install
+```
+
+### 2. Set up Supabase
+
+1. Go to [supabase.com](https://supabase.com) and create a new project
+2. Get your project URL and anon key from Settings > API
+3. Create the following tables in your Supabase database:
+
+#### Users Table
+```sql
+CREATE TABLE users (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INTEGER NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+#### Workouts Table
+```sql
+CREATE TABLE workouts (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  completed BOOLEAN NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+```
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Deploy to Vercel
 
-## Learn More
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add your environment variables in Vercel dashboard
+4. Deploy!
 
-To learn more about Next.js, take a look at the following resources:
+### Environment Variables for Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Make sure to add these in your Vercel project settings:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How to Use
 
-## Deploy on Vercel
+1. **Add Users**: Click "Add New User" and enter name and age
+2. **Select User**: Choose a user from the list or add a new one
+3. **Track Workouts**: Click "Yes! 💪" or "No 😔" to record your workout
+4. **View Leaderboard**: See who's working out the most at the bottom
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Database Schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Users
+- `id`: UUID (Primary Key)
+- `name`: Text (User's name)
+- `age`: Integer (User's age)
+- `created_at`: Timestamp
+
+### Workouts
+- `id`: UUID (Primary Key)
+- `user_id`: UUID (Foreign Key to users.id)
+- `completed`: Boolean (Whether workout was completed)
+- `created_at`: Timestamp
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+MIT License - feel free to use this project for your own workout tracking needs!
+
+---
+
+Built with ❤️ using Next.js, TypeScript, and Supabase
